@@ -21,6 +21,31 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="theme-color" content="#0a0f1c" />
 
+  <!-- Structured data: tells search engines Voldato is a company and this is its site.
+       Add official profile URLs (LinkedIn, Crunchbase, etc.) to a "sameAs" list on the Organization. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://voldato.com/#organization",
+        "name": "Voldato",
+        "url": "https://voldato.com/",
+        "logo": "https://voldato.com/icon-512.png",
+        "description": "AI-powered risk and financial crime monitoring for global compliance teams."
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://voldato.com/#website",
+        "name": "Voldato",
+        "url": "https://voldato.com/",
+        "publisher": { "@id": "https://voldato.com/#organization" }
+      }
+    ]
+  }
+  </script>
+
   <!-- Icons -->
   <link rel="icon" href="/favicon.ico" sizes="48x48" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
