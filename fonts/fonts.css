@@ -1,0 +1,17 @@
+/* Self-hosted so visitors' browsers never contact Google. Latin subset only. */
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400 500; /* variable font: one file covers both weights */
+  font-display: swap;
+  src: url("inter-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("jetbrains-mono-500-latin.woff2") format("woff2");
+}

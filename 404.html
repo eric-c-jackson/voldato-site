@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page not found — Voldato</title>
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#0a0f1c" />
+  <!-- Absolute paths: this page is served at whatever URL was missing. -->
+  <link rel="icon" href="/favicon.ico" sizes="48x48" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/fonts/fonts.css" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0f1c;
+      --bg-glow: #15213b;
+      --text: #e8ecf4;
+      --muted: #6b7a94;
+      --accent: #5eead4;
+    }
+
+    html, body { height: 100%; }
+
+    body {
+      display: grid;
+      place-items: center;
+      padding: 0 1.25rem;
+      background: radial-gradient(ellipse 70% 55% at 50% 45%, var(--bg-glow), var(--bg) 75%) var(--bg);
+      color: var(--text);
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-align: center;
+    }
+
+    main {
+      margin-bottom: 4vh;
+    }
+
+    .code {
+      font-family: "JetBrains Mono", ui-monospace, "Cascadia Code", "SF Mono", Consolas, Menlo, monospace;
+      font-size: clamp(3.5rem, 14vw, 8rem);
+      font-weight: 500;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: #b4c2dc;
+      background: linear-gradient(180deg, #d3ddf0 10%, #7f93b8 95%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .message {
+      margin-top: 1rem;
+      font-family: "JetBrains Mono", ui-monospace, "Cascadia Code", "SF Mono", Consolas, Menlo, monospace;
+      font-size: clamp(0.8rem, 1.6vw, 1.2rem);
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      padding-left: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .message b {
+      font-weight: 500;
+      color: var(--accent);
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 2.5rem;
+      padding: 0.75em 1.6em;
+      border: 1px solid var(--muted);
+      border-radius: 999px;
+      color: var(--text);
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .button:hover,
+    .button:focus-visible {
+      border-color: var(--accent);
+      color: var(--accent);
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1 class="code">404</h1>
+    <p class="message"><b>Unverified</b> page</p>
+    <a class="button" href="/">Back to Voldato</a>
+  </main>
+</body>
+</html>

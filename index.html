@@ -3,45 +3,457 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CTRL+VERIFY</title>
-  <link rel="stylesheet" href="styles.css" />
+
+  <title>Voldato — Trust as a Service</title>
+  <meta name="description" content="Voldato provides AI-powered risk and financial crime monitoring for global compliance teams." />
+  <link rel="canonical" href="https://voldato.com/" />
+
+  <!-- Link previews (LinkedIn, Slack, iMessage, X, etc.) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Voldato" />
+  <meta property="og:url" content="https://voldato.com/" />
+  <meta property="og:title" content="Voldato — Trust as a Service" />
+  <meta property="og:description" content="Voldato provides AI-powered risk and financial crime monitoring for global compliance teams." />
+  <meta property="og:image" content="https://voldato.com/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Voldato — Trust as a Service" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#0a0f1c" />
+
+  <!-- Icons -->
+  <link rel="icon" href="/favicon.ico" sizes="48x48" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+
+  <link rel="preload" href="fonts/jetbrains-mono-500-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="fonts/fonts.css" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0f1c;
+      --bg-glow: #15213b;
+      --text: #e8ecf4;
+      --muted: #6b7a94;
+      --accent: #5eead4;
+    }
+
+    html, body { height: 100%; }
+
+    body {
+      display: grid;
+      place-items: center;
+      background: radial-gradient(ellipse 70% 55% at 50% 45%, var(--bg-glow), var(--bg) 75%) var(--bg);
+      color: var(--text);
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+
+    .name {
+      font-family: "JetBrains Mono", ui-monospace, "Cascadia Code", "SF Mono", Consolas, Menlo, monospace;
+      font-size: clamp(1.5rem, 7.5vw, 5.5rem);
+      font-weight: 500;
+      line-height: 1.2em;
+      letter-spacing: -0.02em;
+      text-align: center;
+      /* soft steel-blue fade instead of flat white */
+      color: #b4c2dc;
+      background: linear-gradient(180deg, #d3ddf0 10%, #7f93b8 95%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stage {
+      position: relative;
+    }
+
+    /* Name and tagline are centred as one group, nudged up to the optical centre. */
+    .stage {
+      margin-bottom: 4vh;
+    }
+
+    .below {
+      display: flex;
+      justify-content: center;
+    }
+
+    .tagline {
+      --line: 1.2em;
+      --track: 0.2em; /* space between letters */
+      --char: calc(1ch + var(--track)); /* one monospace character plus its tracking */
+      display: flex;
+      align-items: center;
+      margin-top: 1em;
+      padding-left: var(--track); /* offset trailing tracking so the text centres */
+      /* monospace keeps the slot's ch-based width exact */
+      font-family: "JetBrains Mono", ui-monospace, "Cascadia Code", "SF Mono", Consolas, Menlo, monospace;
+      font-size: clamp(0.8rem, 1.6vw, 1.2rem);
+      font-weight: 500;
+      line-height: var(--line);
+      letter-spacing: var(--track);
+      text-transform: uppercase;
+      white-space: nowrap;
+      color: var(--muted);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .slot {
+      height: var(--line);
+      /* --slot-chars (longest word) and --final-chars (landing word) are set by the script */
+      width: calc(var(--slot-chars, 8) * var(--char));
+      margin-left: calc((var(--final-chars, 5) - var(--slot-chars, 8)) * var(--char)); /* centre the tagline as if the slot held only the landing word */
+      margin-right: var(--char); /* same width as a tracked space */
+      overflow: hidden;
+      text-align: right; /* words grow leftwards, away from "as a Service" */
+      /* fade words in and out at the window edges */
+      -webkit-mask-image: linear-gradient(transparent, #000 25%, #000 75%, transparent);
+      mask-image: linear-gradient(transparent, #000 25%, #000 75%, transparent);
+    }
+
+    .reel {
+      list-style: none;
+      will-change: transform;
+    }
+
+    .reel li {
+      height: var(--line);
+      white-space: nowrap;
+    }
+
+    .reel li:last-child {
+      color: var(--accent);
+    }
+
+    .tagline.landed .slot {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+    }
+
+    .button {
+      padding: 0.75em 1.6em;
+      border: 1px solid var(--muted);
+      border-radius: 999px;
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+
+    .button:hover,
+    .button:focus-visible {
+      border-color: var(--accent);
+      color: var(--accent);
+      outline: none;
+    }
+
+    .button:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+
+    .button--solid {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    .button--solid:hover,
+    .button--solid:focus-visible {
+      background: transparent;
+    }
+
+    /* Pinned to the bottom of the viewport; fades in once the reel lands. */
+    .contact-open {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .contact-open.is-visible {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 1.2s ease 0.2s, border-color 0.2s, color 0.2s, background 0.2s;
+    }
+
+    .contact {
+      margin: auto;
+      width: min(26rem, calc(100vw - 2rem));
+      padding: 2rem;
+      border: 1px solid #24324f;
+      border-radius: 14px;
+      background: #0f172a;
+      color: var(--text);
+    }
+
+    .contact::backdrop {
+      background: rgba(5, 8, 16, 0.7);
+      backdrop-filter: blur(4px);
+    }
+
+    .contact h2 {
+      margin-bottom: 1.25rem;
+      font-size: 1.15rem;
+      font-weight: 500;
+    }
+
+    .contact label {
+      display: block;
+      margin-bottom: 1rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .contact input,
+    .contact textarea {
+      display: block;
+      width: 100%;
+      margin-top: 0.4rem;
+      padding: 0.65rem 0.75rem;
+      border: 1px solid #24324f;
+      border-radius: 8px;
+      background: var(--bg);
+      color: var(--text);
+      font: inherit;
+      font-size: 0.95rem;
+    }
+
+    .contact textarea {
+      min-height: 7rem;
+      resize: vertical;
+    }
+
+    .contact input:focus,
+    .contact textarea:focus {
+      border-color: var(--accent);
+      outline: none;
+    }
+
+    /* Honeypot: hidden from people, filled in by bots. */
+    .contact .trap {
+      position: absolute;
+      left: -9999px;
+    }
+
+    .contact__actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .contact__status {
+      min-height: 1.2em;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .contact__status.is-error {
+      color: #fca5a5;
+    }
+
+    .contact__note {
+      margin-top: 0.25rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .contact__note a {
+      color: inherit;
+      text-underline-offset: 2px;
+    }
+
+    .contact__note a:hover,
+    .contact__note a:focus-visible {
+      color: var(--accent);
+    }
+  </style>
 </head>
 <body>
-  <header class="hero">
-    <nav class="nav">
-      <div class="nav__brand">CTRL+VERIFY</div>
-      <a class="nav__cta" href="#contact">Get in touch</a>
-    </nav>
-    <div class="hero__content">
-      <h1>CTRL+VERIFY</h1>
-      <p class="hero__subtitle">Your tagline goes here.</p>
-      <a class="button" href="#contact">Get Started</a>
+  <div class="stage">
+    <h1 class="name">VOLDATO
+    </h1>
+    <div class="below">
+      <!-- A div, not a p: a p can't contain the reel's list. -->
+      <div class="tagline" id="tagline" title="Click to spin again">
+        <span class="sr-only">Trust as a Service</span>
+        <span class="slot" aria-hidden="true">
+          <ul class="reel" id="reel"><li>TRUST</li></ul>
+        </span>
+        <span aria-hidden="true">as a Service</span>
+      </div>
     </div>
-  </header>
+  </div>
 
-  <section class="features" id="features">
-    <div class="feature">
-      <h3>Feature One</h3>
-      <p>Short description of the first thing you offer.</p>
-    </div>
-    <div class="feature">
-      <h3>Feature Two</h3>
-      <p>Short description of the second thing you offer.</p>
-    </div>
-    <div class="feature">
-      <h3>Feature Three</h3>
-      <p>Short description of the third thing you offer.</p>
-    </div>
-  </section>
+  <button class="button contact-open" id="contact-open" type="button">Contact</button>
 
-  <section class="contact" id="contact">
-    <h2>Get in touch</h2>
-    <p>Have questions? Reach out and we'll get back to you.</p>
-    <a class="button button--dark" href="mailto:hello@example.com">Email Us</a>
-  </section>
+  <dialog class="contact" id="contact" aria-labelledby="contact-title">
+    <form id="contact-form">
+      <h2 id="contact-title">Get in touch</h2>
+      <label>Name
+        <input type="text" name="name" autocomplete="name" required />
+      </label>
+      <label>Email
+        <input type="email" name="email" autocomplete="email" required />
+      </label>
+      <label>Message
+        <textarea name="message" required></textarea>
+      </label>
+      <input class="trap" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <p class="contact__status" id="contact-status" role="status"></p>
+      <p class="contact__note">We only use your details to reply. See our <a href="privacy.html">privacy notice</a>.</p>
+      <div class="contact__actions">
+        <button class="button" id="contact-close" type="button">Cancel</button>
+        <button class="button button--solid" id="contact-send" type="submit">Send</button>
+      </div>
+    </form>
+  </dialog>
 
-  <footer class="footer">
-    <p>&copy; 2026 CTRL+VERIFY. All rights reserved.</p>
-  </footer>
+  <script>
+    (function () {
+      var FINAL = "TRUST";
+      var OPTIONS = [
+        "POLICY", "RISK", "MONITORING", "SANCTIONS", "ANALYTICS",
+        "SCREENING", "PEPs", "KYB", "KYC", "IDENTITY", "SPY", "SLEUTH",
+        "SEARCHING", "ANTI-FRAUD", "ONBOARDING", "COMPLIANCE", "AML"
+      ];
+      var SPIN_MS = 4500;
+
+      var lockup = document.getElementById("tagline");
+      var contactOpen = document.getElementById("contact-open");
+      var reel = document.getElementById("reel");
+      var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var spinning = false;
+
+      // Size the slot to the longest word so nothing is clipped.
+      var longest = OPTIONS.concat([FINAL]).reduce(function (max, word) {
+        return Math.max(max, word.length);
+      }, 0);
+      lockup.style.setProperty("--slot-chars", longest);
+      lockup.style.setProperty("--final-chars", FINAL.length);
+
+      function shuffle(list) {
+        var a = list.slice();
+        for (var i = a.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var t = a[i]; a[i] = a[j]; a[j] = t;
+        }
+        return a;
+      }
+
+      function spin() {
+        if (spinning) return;
+        spinning = true;
+        lockup.classList.remove("landed");
+        contactOpen.classList.remove("is-visible");
+
+        // Two shuffled passes so the reel has enough distance to feel fast.
+        var words = shuffle(OPTIONS).concat(shuffle(OPTIONS), [FINAL]);
+        reel.innerHTML = "";
+        words.forEach(function (word) {
+          var li = document.createElement("li");
+          li.textContent = word;
+          reel.appendChild(li);
+        });
+
+        var end = "translateY(" + (-(words.length - 1) * 1.2) + "em)";
+
+        function land() {
+          reel.style.transform = end;
+          lockup.classList.add("landed");
+          contactOpen.classList.add("is-visible");
+          spinning = false;
+        }
+
+        if (reducedMotion || !reel.animate) {
+          land();
+          return;
+        }
+
+        reel.style.transform = "translateY(0)";
+        var animation = reel.animate(
+          [{ transform: "translateY(0)" }, { transform: end }],
+          // Fast start, long deceleration, like a reel coming to rest.
+          { duration: SPIN_MS, easing: "cubic-bezier(0.12, 0.7, 0.1, 1)" }
+        );
+        animation.onfinish = land;
+        animation.oncancel = land;
+      }
+
+      lockup.addEventListener("click", spin);
+      spin();
+    })();
+
+    (function () {
+      var FORM_ENDPOINT = "https://formspree.io/f/xaeqwrzo";
+
+      var dialog = document.getElementById("contact");
+      var form = document.getElementById("contact-form");
+      var status = document.getElementById("contact-status");
+      var send = document.getElementById("contact-send");
+
+      function setStatus(text, isError) {
+        status.textContent = text;
+        status.classList.toggle("is-error", !!isError);
+      }
+
+      document.getElementById("contact-open").addEventListener("click", function () {
+        setStatus("");
+        dialog.showModal();
+      });
+
+      document.getElementById("contact-close").addEventListener("click", function () {
+        dialog.close();
+      });
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        if (FORM_ENDPOINT.indexOf("YOUR_FORM_ID") !== -1) {
+          setStatus("The contact form isn't connected yet.", true);
+          return;
+        }
+
+        send.disabled = true;
+        setStatus("Sending…");
+
+        fetch(FORM_ENDPOINT, {
+          method: "POST",
+          headers: { Accept: "application/json" },
+          body: new FormData(form)
+        })
+          .then(function (response) {
+            if (!response.ok) throw new Error("Request failed: " + response.status);
+            form.reset();
+            setStatus("Thanks — your message has been sent.");
+          })
+          .catch(function () {
+            setStatus("Something went wrong. Please try again.", true);
+          })
+          .then(function () {
+            send.disabled = false;
+          });
+      });
+    })();
+  </script>
 </body>
 </html>
